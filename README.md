@@ -1,5 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/aaf68e985a4d4b9c8f70f86c23cc6861)](https://www.codacy.com/manual/AlinaSand/topjava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AlinaSand/topjava&amp;utm_campaign=Badge_Grade)
-
+[![Build Status](https://travis-ci.org/AlinaSand/topjava.svg?branch=master)](https://travis-ci.org/AlinaSand/topjava.svg)
 
 Java Enterprise Online Project 
 ===============================
