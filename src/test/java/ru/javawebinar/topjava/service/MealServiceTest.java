@@ -5,9 +5,7 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.rules.Timeout;
+import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,13 +18,9 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -42,8 +36,7 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 public class MealServiceTest {
 
     private static Logger logger = getLogger(MealServiceTest.class);
-    private static Map<String, Long> logMap = new HashMap<>();
-    long startTime;
+    private static StringBuilder logBuilder = new StringBuilder("Logging methods: \n");
 
     @Autowired
     private MealService service;
@@ -54,50 +47,41 @@ public class MealServiceTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Rule
-    public TestWatcher watcher = new TestWatcher() {
-        @Override
-        protected void starting(Description description) {
-            startTime = System.currentTimeMillis();
-            String methodName = description.getMethodName();
-            logger.debug("Start - {}", methodName);
-        }
+    public Stopwatch watcher = new Stopwatch() {
 
         @Override
-        protected void finished(Description description) {
-            long time = System.currentTimeMillis() - startTime;
-            String methodName = description.getMethodName();
-            logMap.put(methodName, time);
-            logger.debug("Finish - {}, time - {} ms", methodName, time);
+        protected void finished(long nanos, Description description) {
+            String rowLog = String.format("%1$" + 5 + "s", String.valueOf(TimeUnit.NANOSECONDS.toMillis(nanos)) +" ms - " + description.getMethodName() );
+            logger.info(rowLog);
+            logBuilder.append(rowLog + "\n");
         }
     };
 
     @AfterClass
     public static void afterClass() {
-        for(Map.Entry pair : logMap.entrySet()) {
-            logger.info("Method {} - {} ms", pair.getKey(), pair.getValue());
-        }
+        logger.info(logBuilder.toString());
     }
 
     @Test
-    public void delete() throws Exception {
+    public void delete() {
         service.delete(MEAL1_ID, USER_ID);
         Assert.assertNull(repository.get(MEAL1_ID, USER_ID));
     }
 
     @Test
-    public void deleteNotFound() throws Exception {
+    public void deleteNotFound() {
         exception.expect(NotFoundException.class);
         service.delete(1, USER_ID);
     }
 
     @Test
-    public void deleteNotOwn() throws Exception {
+    public void deleteNotOwn() {
         exception.expect(NotFoundException.class);
         service.delete(MEAL1_ID, ADMIN_ID);
     }
 
     @Test
-    public void create() throws Exception {
+    public void create() {
         Meal newMeal = getCreated();
         Meal created = service.create(newMeal, USER_ID);
         Integer newId = created.getId();
@@ -107,43 +91,43 @@ public class MealServiceTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
         MEAL_MATCHER.assertMatch(actual, ADMIN_MEAL1);
     }
 
     @Test
-    public void getNotFound() throws Exception {
+    public void getNotFound() {
         exception.expect(NotFoundException.class);
         service.get(1, USER_ID);
     }
 
     @Test
-    public void getNotOwn() throws Exception {
+    public void getNotOwn() {
         exception.expect(NotFoundException.class);
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
         Meal updated = getUpdated();
         service.update(updated, USER_ID);
         MEAL_MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), updated);
     }
 
     @Test
-    public void updateNotFound() throws Exception {
+    public void updateNotFound() {
         exception.expect(NotFoundException.class);
         service.update(MEAL1, ADMIN_ID);
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll() {
         MEAL_MATCHER.assertMatch(service.getAll(USER_ID), MEALS);
     }
 
     @Test
-    public void getBetweenInclusive() throws Exception {
+    public void getBetweenInclusive() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(
                 LocalDate.of(2020, Month.JANUARY, 30),
                 LocalDate.of(2020, Month.JANUARY, 30), USER_ID),
@@ -151,7 +135,7 @@ public class MealServiceTest {
     }
 
     @Test
-    public void getBetweenWithNullDates() throws Exception {
+    public void getBetweenWithNullDates() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(null, null, USER_ID), MEALS);
     }
 }
