@@ -8,8 +8,6 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.javawebinar.topjava.util.DateTimeUtil.*;
-
 @Repository
 public class DataJpaMealRepository implements MealRepository {
 
