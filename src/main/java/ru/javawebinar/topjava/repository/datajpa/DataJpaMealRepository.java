@@ -23,8 +23,7 @@ public class DataJpaMealRepository implements MealRepository {
             return null;
         }
         meal.setUser(crudUserRepository.findById(userId).get());
-        crudRepository.save(meal);
-        return meal;
+        return crudRepository.save(meal);
     }
 
     @Override
@@ -44,7 +43,6 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return crudRepository.findAllByDateTimeAfterAndDateTimeBeforeAndUserIdOrderByDateTimeDesc(startDateTime,
-                endDateTime, userId);
+        return crudRepository.getBetweenHalfOpen(userId, startDateTime, endDateTime);
     }
 }
