@@ -5,8 +5,6 @@ import org.junit.Test;
 import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.UserTestData;
-import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserServiceTest;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -37,6 +35,6 @@ public class DataJpaUserServiceTest extends UserServiceTest {
         User newUser = UserTestData.getNew();
         User user = service.create(newUser);
         User userMeal = service.getWithMeals(user.getId());
-        assertThat(userMeal.getMeals()).isNullOrEmpty();
+        assertThat(userMeal.getMeals()).isEmpty();
     }
 }
