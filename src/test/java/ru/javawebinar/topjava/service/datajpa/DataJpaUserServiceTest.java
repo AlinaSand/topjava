@@ -14,6 +14,8 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import static ru.javawebinar.topjava.UserTestData.*;
 import static ru.javawebinar.topjava.MealTestData.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @ActiveProfiles(Profiles.DATAJPA)
 public class DataJpaUserServiceTest extends UserServiceTest {
 
@@ -35,6 +37,6 @@ public class DataJpaUserServiceTest extends UserServiceTest {
         User newUser = UserTestData.getNew();
         User user = service.create(newUser);
         User userMeal = service.getWithMeals(user.getId());
-        MEAL_MATCHER.assertMatch(userMeal.getMeals(), MEALS_NULL);
+        assertThat(userMeal.getMeals()).isNullOrEmpty();
     }
 }
