@@ -13,6 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.ActiveDbProfileResolver;
+import ru.javawebinar.topjava.Profiles;
 import ru.javawebinar.topjava.TimingRules;
 
 import java.util.Arrays;
@@ -40,7 +41,7 @@ abstract public class AbstractServiceTest {
 
     public boolean isJDBC() {
         String[] profiles = environment.getActiveProfiles();
-        return Arrays.asList(profiles).contains("jdbc");
+        return Arrays.asList(profiles).contains(Profiles.JDBC);
     }
 
     //  Check root cause in JUnit: https://github.com/junit-team/junit4/pull/778
