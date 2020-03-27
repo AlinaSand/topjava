@@ -25,17 +25,11 @@ import static ru.javawebinar.topjava.web.meal.MealRestController.REST_URL;
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.util.MealsUtil.*;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
-import static org.assertj.core.api.Assertions.assertThat;
-import static ru.javawebinar.topjava.TestUtil.readListFromJsonMvcResult;
 
 public class MealRestControllerTest extends AbstractControllerTest {
 
     @Autowired
     MealService mealService;
-
-    public ResultMatcher assertMatchMealTo(List<MealTo> mealTos) {
-        return result -> assertThat(readListFromJsonMvcResult(result, MealTo.class)).isEqualTo(mealTos);
-    }
 
     @Test
     void getAll() throws Exception {
