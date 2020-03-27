@@ -33,6 +33,7 @@
 - @param int id - id meal
 
 `curl --location --request DELETE 'http://localhost:8080/topjava/rest/meals/id'`
+
 ---
 #### Get all users
 `curl --location --request GET 'http://localhost:8080/topjava/rest/admin/users'`
