@@ -1,4 +1,15 @@
-// $(document).ready(function () {
+function updateFilteredTable() {
+    $.ajax({
+        type: "GET",
+        url: "ajax/meals/between",
+        data: $("#filter").serialize()
+    }).done(updateTableByData);
+}
+
+function clearFilter() {
+    $("#filter")[0].reset();
+}
+
 $(function () {
     makeEditable({
             ajaxUrl: "ajax/meals/",
@@ -30,7 +41,8 @@ $(function () {
                         "asc"
                     ]
                 ]
-            })
+            }),
+            updateTable: updateFilteredTable()
         }
     );
 });

@@ -12,27 +12,41 @@
 <div class="jumbotron pt-4">
     <div class="container">
         <h3 class="text-center"><spring:message code="meal.title"/></h3>
-
-    <form method="get" action="meals/filter">
-        <dl>
-            <dt><spring:message code="meal.startDate"/>:</dt>
-            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
-        </dl>
-        <dl>
-            <dt><spring:message code="meal.endDate"/>:</dt>
-            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
-        </dl>
-        <dl>
-            <dt><spring:message code="meal.startTime"/>:</dt>
-            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
-        </dl>
-        <dl>
-            <dt><spring:message code="meal.endTime"/>:</dt>
-            <dd><input type="time" name="endTime" value="${param.endTime}"></dd>
-        </dl>
-        <button type="submit"><spring:message code="meal.filter"/></button>
-    </form>
-    <hr>
+        <div class="card border-dark">
+            <div class="card-body pb-0">
+                <form id="filter">
+                    <div class="row">
+                        <div class="offset-1 col-2">
+                            <label for="startDate"><spring:message code="meal.startDate"/></label>
+                            <input class="form-control" type="date" name="startDate" id="startDate">
+                        </div>
+                        <div class="col-2">
+                            <label for="endDate"><spring:message code="meal.endDate"/></label>
+                            <input class="form-control" type="date" name="endDate" id="endDate">
+                        </div>
+                        <div class="offset-2 col-2">
+                            <label for="startTime"><spring:message code="meal.startTime"/>:</label>
+                            <input class="form-control" type="time" name="startTime" id="startTime">
+                        </div>
+                        <div class="col-2">
+                            <label for="endTime"><spring:message code="meal.endTime"/></label>
+                            <input class="form-control" type="time" name="endTime" id="endTime">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <button type="reset" class="btn btn-danger reset-button" onclick="clearFilter()">
+                    <span class="fa fa-remove"></span>
+                    <spring:message code="common.cancel"/>
+                </button>
+                <button class="btn btn-primary" onclick="updateFilteredTable()">
+                    <span class="fa fa-filter"></span>
+                    <spring:message code="meal.filter"/>
+                </button>
+            </div>
+        </div>
+        <br>
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
