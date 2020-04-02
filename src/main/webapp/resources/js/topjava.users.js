@@ -43,3 +43,17 @@ $(function () {
         }
     );
 });
+
+function enable(checkBox, userId) {
+    var enabled = checkBox.is(":checked");
+    $.ajax({
+        url: "ajax/admin/users/" + userId,
+        type: "POST",
+        data: "enabled=" + enabled
+    }).done(function () {
+        checkBox.closest("tr").attr("data-userEnabled", enabled);
+        successNoty(enabled ? "Enabled" : "Disabled");
+    }).fail(function () {
+        $(checkBox).prop("checked", !enabled);
+    });
+}
