@@ -7,6 +7,8 @@
 <body>
 <script type="text/javascript" src="resources/js/topjava.common.js" defer></script>
 <script type="text/javascript" src="resources/js/topjava.meals.js" defer></script>
+<link rel="stylesheet" href="webjars/datetimepicker/2.5.20/jquery.datetimepicker.css">
+<script type="text/javascript" src="webjars/datetimepicker/2.5.20/build/jquery.datetimepicker.full.min.js" defer></script>
 <jsp:include page="fragments/bodyHeader.jsp"/>
 
 <div class="jumbotron pt-4">
@@ -79,7 +81,7 @@
 
                     <div class="form-group">
                         <label for="dateTime" class="col-form-label"><spring:message code="meal.dateTime"/></label>
-                        <input type="datetime-local" class="form-control" id="dateTime" name="dateTime"
+                        <input class="form-control" id="dateTime" name="dateTime" autocomplete="off"
                                placeholder="<spring:message code="meal.dateTime"/>">
                     </div>
 
@@ -113,5 +115,6 @@
 <jsp:include page="fragments/i18n.jsp">
     <jsp:param name="page" value ="meal"/>
 </jsp:include>
+<!-- this should go after your </body> -->
 </body>
 </html>
